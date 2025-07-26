@@ -1,22 +1,33 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class Epic extends Task{
-    HashMap<String, Subtask> subTasks = new HashMap();
+
+
+    public ArrayList<Integer> getSubtasksId() {
+        return subtasksId;
+    } //нужно для получения списка id подзадач эпика в методе GetAllSubtasksOfEpic
+
+    private ArrayList<Integer> subtasksId = new ArrayList<>(); //список id подзадач для мапы в taskmanager
 
     public Epic(String name, String description) {
-        super(name, description);
+        super(name, description, Status.NEW);
+
     }
 
-    public void checkStatus(){
-        for (Subtask subTask: subTasks.values()) {
-            int count = 0;
-            if (subTask.status==Status.DONE){
-                count++;
-            }
-            if (count == subTasks.size()) {  //если все подзадачи эпика выполнены то он сам будет выполнен
-                status = Status.DONE;
-            }
-        }
+    public void deleteOneSubtask(Integer id) {
+        subtasksId.remove(id);
     }
-}
+
+    public void addOneSubtask(Integer id){
+        subtasksId.add(id);
+    }
+
+    public void deleteAllSubtasks(){
+        subtasksId.clear();
+    }
+
+
+
+        }
+
