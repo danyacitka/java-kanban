@@ -1,18 +1,16 @@
 import java.util.ArrayList;
 
 
-public class Epic extends Task{
-
-
-    public ArrayList<Integer> getSubtasksId() {
-        return subtasksId;
-    } //нужно для получения списка id подзадач эпика в методе GetAllSubtasksOfEpic
-
-    private ArrayList<Integer> subtasksId = new ArrayList<>(); //список id подзадач для мапы в taskmanager
+public class Epic extends Task {
+    private ArrayList<Integer> subtasksId = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description, Status.NEW);
 
+    }
+
+    public ArrayList<Integer> getSubtasksId() {
+        return subtasksId;
     }
 
     public void deleteOneSubtask(Integer id) {
