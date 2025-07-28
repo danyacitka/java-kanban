@@ -163,14 +163,11 @@ public class Main {
                     System.out.println("Введите id");
                     id = scanner.nextLine();
                     if (type.equals("3")) {
-                        subtask = tm.getSubtask(Integer.valueOf(id));
-                        tm.deleteSubaskByID(subtask);
+                        tm.deleteSubaskByID(Integer.valueOf(id));
                     } else if (type.equals("1")) {
-                        task = tm.getTask(Integer.valueOf(id));
-                        tm.deleteTaskByID(task);
+                        tm.deleteTaskByID(Integer.valueOf(id));
                     } else if (type.equals("2")) {
-                        epic = tm.getEpic(Integer.valueOf(id));
-                        tm.deleteEpicByID(epic);
+                        tm.deleteEpicByID(Integer.valueOf(id));
                     } else {
                         System.out.println("Введен неправильный тип задачи");
                     }
@@ -181,8 +178,7 @@ public class Main {
                 case "7": //Получение списка подзадач эпика
                     System.out.println("Введите id сверхзадачи для получения подзадач");
                     id = scanner.nextLine();
-                    epic = tm.getEpic(Integer.valueOf(id));
-                    tm.getListOfSubtasksOfEpic(epic);
+                    tm.getListOfSubtasksOfEpic(Integer.valueOf(id));
                     break;
 
 
