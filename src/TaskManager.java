@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -138,7 +136,7 @@ public class TaskManager {
         if (subtasks.containsKey(subtask.getId())) {
             Subtask savedSubtask = subtasks.get(subtask.getId());
             if (!savedSubtask.getEpicId().equals(subtask.getEpicId())){
-                System.out.println("Нелья сменить принадлежность к сверхзадаче");
+                System.out.println("Нельзя сменить принадлежность к сверхзадаче");
                 return;
             }
             subtasks.put(subtask.getId(), subtask);
@@ -155,26 +153,34 @@ public class TaskManager {
 
     public void deleteEpicByID(Integer id) {
         if (epics.containsKey(id)) {
-            epics.get(id).deleteAllSubtasks();
+            for (Integer subId : epics.get(id).getSubtasksId()){
+                subtasks.remove(subId);
+            }
             epics.remove(id);
         }
     }
 
     public void deleteSubaskByID(Integer id) {
         Subtask subtask = subtasks.get(id);
-        epics.get(subtask.getEpicId()).deleteOneSubtask(subtask.getId());
-        subtasks.remove(subtask.getId());
-        changeStatus(subtask.getEpicId());
+        if (subtask != null) {
+            epics.get(subtask.getEpicId()).deleteOneSubtask(subtask.getId());
+            subtasks.remove(subtask.getId());
+            changeStatus(subtask.getEpicId());
+            System.out.println("Статус изменен");
+        }
     }
 
 
     public ArrayList<Subtask> getListOfSubtasksOfEpic(Integer id) {
         Epic epic = epics.get(id);
         ArrayList<Subtask> listOfSubtasks = new ArrayList<>();
-        for (Integer subId : epic.getSubtasksId()) {
-            listOfSubtasks.add(subtasks.get(subId));
+        if (epic != null) {
+            for (Integer subId : epic.getSubtasksId()) {
+                listOfSubtasks.add(subtasks.get(subId));
             }
+        }
         return listOfSubtasks;
+
     }
 
 
@@ -183,7 +189,7 @@ public class TaskManager {
         boolean allDone = true; //создание переменных для проверки статуса эпика
         Epic epic = epics.get(id);
         for (Integer subtaskId : epic.getSubtasksId()) {
-            if (subtasks.get(subtaskId).getStatus() != Status.NEW) { //почему-то субтаскс гет выдает нулл
+            if (subtasks.get(subtaskId).getStatus() != Status.NEW) {
                 allNew = false;
             }
             if (subtasks.get(subtaskId).getStatus() != Status.DONE) {
